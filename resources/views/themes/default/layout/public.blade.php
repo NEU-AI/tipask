@@ -36,7 +36,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <div class="logo"><a class="navbar-brand logo" href="{{ route('website.index') }}"></a></div>
+                <div class="logo"><a class="navbar-brand logo" href="{{ route('auth.doing.index') }}"></a></div>
             </div>
 
             <div class="collapse navbar-collapse" id="global-navbar">
@@ -47,15 +47,15 @@
                     </div>
                 </form>
                 <ul class="nav navbar-nav">
-                    <li @if(request()->route()->getName() == 'website.index') class="active" @endif><a href="{{ route('website.index') }}">首页 <span class="sr-only">(current)</span></a></li>
+                    <li @if(request()->route()->getName() == 'auth.doing.index') class="active" @endif><a href="{{ route('auth.doing.index') }}">发现 <span class="sr-only">(current)</span></a></li>
 
                     @if(Auth()->check())
-                    <li @if(request()->route()->getName() == 'auth.doing.index') class="active" @endif><a href="{{ route('auth.doing.index') }}">发现</a></li>
+                    <!--li @if(request()->route()->getName() == 'auth.doing.index') class="active" @endif><a href="{{ route('auth.doing.index') }}">发现</a></li-->
                     @endif
                     <li @if(request()->route()->getName() == 'website.ask') class="active" @endif><a href="{{ route('website.ask') }}">问答</a></li>
                     <li @if(request()->route()->getName() == 'website.blog') class="active" @endif><a href="{{ route('website.blog') }}">文章</a></li>
                     <li @if(request()->route()->getName() == 'website.topic') class="active" @endif><a href="{{ route('website.topic') }}">话题</a></li>
-                    <!-- <li @if(request()->route()->getName() == 'website.shop') class="active" @endif><a href="{{ route('website.shop') }}">商城</a></li> -->
+                    <!--li @if(request()->route()->getName() == 'website.shop') class="active" @endif><a href="{{ route('website.shop') }}">商城</a></li-->
                 </ul>
                 @if (Auth::guest())
                     <ul class="nav navbar-nav navbar-right">
@@ -132,7 +132,7 @@
 
 <footer id="footer">
     <div class="container">
-        @if(request()->route()->getName() == 'website.index')
+        @if(request()->route()->getName() == 'auth.search.index')
         <ul class="list-unstyled list-inline">
             <li>友情链接</li>
             @foreach($friendshipLinks as $link)

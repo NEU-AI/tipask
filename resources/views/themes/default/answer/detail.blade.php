@@ -36,8 +36,8 @@
                         <ul class="list-inline">
                             <li><a class="comments"  data-toggle="collapse"  href="#comments-question-{{ $question->id }}" aria-expanded="false" aria-controls="comment-{{ $question->id }}"><i class="fa fa-comment-o"></i> {{ $question->comments }} 条评论</a></li>
                             @if($question->status!==2 && Auth()->check() && (Auth()->user()->id === $question->user_id) )
-                                <li><a href="{{ route('ask.question.edit',['id'=>$question->id]) }}" class="edit" data-toggle="tooltip" data-placement="right" title="" data-original-title="补充细节，以得到更准确的答案"><i class="fa fa-edit"></i> 编辑</a></li>
-                                <li><a href="#" data-toggle="modal" data-target="#appendReward"  ><i class="fa fa-database"></i> 追加悬赏</a></li>
+                                <!--li><a href="{{ route('ask.question.edit',['id'=>$question->id]) }}" class="edit" data-toggle="tooltip" data-placement="right" title="" data-original-title="补充细节，以得到更准确的答案"><i class="fa fa-edit"></i> 编辑</a></li>
+                                <li><a href="#" data-toggle="modal" data-target="#appendReward"  ><i class="fa fa-database"></i> 追加悬赏</a></li-->
                             @endif
                         </ul>
                     </div>
@@ -61,6 +61,8 @@
                             <a href="{{ route('auth.space.index',['user_id'=>$answer->user_id]) }}" class="avatar-link user-card" target="_blank">
                                 <img class="avatar-40 hidden-xs"  src="{{ get_user_avatar($answer->user_id,'middle') }}" alt="{{ $answer->user['name'] }}"></a>
                             </a>
+                            <div style="font-size:10px;text-align:center;width:100%;color:#AAAAAA">积分 {{$answer->user->userData->points}}
+                            </div>
                         </div>
                         <div class="media-body">
                             <div class="media-heading">
@@ -118,7 +120,7 @@
                         @else
                             <button id="collect-button" class="btn btn-default btn-sm" data-source_type = "question" data-source_id = "{{ $question->id }}" > 收藏</button>
                         @endif
-                        <strong id="collection-num">{{ $question->collections }}</strong> 收藏，<strong class="no-stress">{{ $question->views }}</strong> 浏览
+                        <strong id="collection-num">{{ $question->collections }}</strong> 收藏，<strong class="no-stress">{{ $question->views }}</strong> 评分，<strong class="no-stress">{{ $question->views }}</strong> 浏览
                     </li>
                     <li>
                         <i class="fa fa-clock-o"></i>
@@ -145,7 +147,7 @@
     </div>
 
     @if(Auth()->check())
-        <div class="modal" id="appendReward" tabindex="-1" role="dialog" aria-labelledby="appendRewardLabel">
+        <!--div class="modal" id="appendReward" tabindex="-1" role="dialog" aria-labelledby="appendRewardLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -177,7 +179,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div-->
         <div class="modal" id="adoptAnswer" tabindex="-1" role="dialog" aria-labelledby="adoptAnswerLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

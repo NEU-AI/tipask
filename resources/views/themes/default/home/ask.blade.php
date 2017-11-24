@@ -20,7 +20,7 @@
             <ul class="nav nav-tabs mb-10 mt-20">
                 <li @if($filter==='newest') class="active" @endif ><a href="{{ route('website.ask',['category_slug'=>$categorySlug]) }}">最新的</a></li>
                 <li @if($filter==='hottest') class="active" @endif><a href="{{ route('website.ask',['category_slug'=>$categorySlug,'filter'=>'hottest']) }}">热门的</a></li>
-                <li @if($filter==='reward') class="active" @endif><a href="{{ route('website.ask',['category_slug'=>$categorySlug,'filter'=>'reward']) }}">悬赏的</a></li>
+                <!--li @if($filter==='reward') class="active" @endif><a href="{{ route('website.ask',['category_slug'=>$categorySlug,'filter'=>'reward']) }}">悬赏的</a></li-->
                 <li @if($filter==='unAnswered') class="active" @endif><a href="{{ route('website.ask',['category_slug'=>$categorySlug,'filter'=>'unAnswered']) }}">未回答的</a></li>
             </ul>
             <div class="stream-list question-stream">
@@ -29,6 +29,9 @@
                     <div class="qa-rank">
                         <div class="answers @if($question->status===2) solved @elseif($question->answers>0) answered @endif">
                             {{ $question->answers }}<small>@if($question->status===2) 解决 @else 回答 @endif</small>
+                        </div>
+                        <div class="views hidden-xs" style="margin: 0 -10px 0 0">
+                            {{ $question->views }}<small>评分</small>
                         </div>
                         <div class="views hidden-xs">
                             {{ $question->views }}<small>浏览</small>
@@ -44,7 +47,7 @@
                         </ul>
                         <h2 class="title">
                             @if($question->price>0)
-                                <span class="text-gold"><i class="fa fa-database"></i> {{ $question->price }}</span>
+                                <!--span class="text-gold"><i class="fa fa-database"></i> {{ $question->price }}</span-->
                             @endif
                             <a href="{{ route('ask.question.detail',['id'=>$question->id]) }}" target="_blank" >{{ $question->title }}</a>
                         </h2>

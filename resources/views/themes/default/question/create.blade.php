@@ -72,11 +72,11 @@
                             </div>
                         </li>
                         @endif
-                        <li>
+                        <!--li>
                             <select name="price">
                                 <option selected="selected" value="0">0</option><option value="3">3</option><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="30">30</option><option value="50">50</option><option value="80">80</option><option value="100">100</option>
                             </select>&nbsp;金币
-                        </li>
+                        </li-->
                         <li><input type="checkbox" name="hide" value="1" />&nbsp;匿名</li>
                     </ul>
                 </div>

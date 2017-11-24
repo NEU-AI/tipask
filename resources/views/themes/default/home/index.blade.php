@@ -9,6 +9,7 @@
 @endsection
 
 @section('content')
+
     <div class="row mt-10">
         <div class="col-xs-12 col-md-9 main">
             <div class="widget-box mb-10">

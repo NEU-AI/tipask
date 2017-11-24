@@ -23,7 +23,7 @@
 
             <div class="form-group @if($errors->has('title')) has-error @endif ">
                 <label for="title">文章标题:</label>
-                <input id="title" type="text" name="title"  class="form-control input-lg" placeholder="我想起那天下午在夕阳下的奔跑,那是我逝去的青春" value="{{ old('title',$article->title) }}" />
+                <input id="title" type="text" name="title"  class="form-control input-lg" placeholder="请在此处输入文章标题" value="{{ old('title',$article->title) }}" />
                 @if($errors->has('title')) <p class="help-block">{{ $errors->first('title') }}</p> @endif
             </div>
 
@@ -65,7 +65,9 @@
                     </select>
                 </div>
             </div>
-
+            <div class="save_bar">
+                <div class="save_button btn" onclick="save_file()">保存草稿</div>
+            </div>
             <div class="row mt-20">
                 <div class="col-xs-12 col-md-11">
                     <ul class="list-inline">
@@ -90,7 +92,21 @@
         </form>
 
     </div>
+ <style type="text/css">
+        .save_bar{
+            height: 40px;
+            width: 100%;
+            padding: 10px 0 0 0;
+        }
+        .save_button{
+            float: right;
+            background: #DDDDDD;
 
+        }
+        .save_button:hover{
+            background-color: lightgray;
+        }
+    </style>
 @endsection
 @section('script')
     <script src="{{ asset('/static/js/summernote/summernote.min.js') }}"></script>
@@ -125,5 +141,10 @@
             });
 
         });
+
+        function save_file(){
+            var content = "{{ $article->content }}";
+            alert(content);
+        }
     </script>
 @endsection

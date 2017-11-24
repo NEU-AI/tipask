@@ -29,6 +29,7 @@ class CreateUserDataTable extends Migration
             $table->integer('supports')->unsigned()->default(0);            //赞同数
             $table->integer('followers')->unsigned()->default(0);           //关注数
             $table->integer('views')->unsigned()->default(0);
+            $table->integer('points')->unsigned()->default(0);
             $table->unsignedTinyInteger('email_status')->default(0);
             $table->unsignedTinyInteger('mobile_status')->default(0);
             $table->unsignedTinyInteger('authentication_status')->default(0); //行家认证状态

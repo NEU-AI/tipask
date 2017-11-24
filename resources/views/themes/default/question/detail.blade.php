@@ -41,7 +41,7 @@
                                 <li><a href="{{ route('ask.question.edit',['id'=>$question->id]) }}" class="edit" data-toggle="tooltip" data-placement="right" title="" data-original-title="补充细节，以得到更准确的答案"><i class="fa fa-edit"></i> 编辑</a></li>
                                 @endif
                                 @if( $question->status !== 2 && Auth()->user()->id === $question->user_id )
-                                <li><a href="#" data-toggle="modal" data-target="#appendReward"  ><i class="fa fa-database"></i> 追加悬赏</a></li>
+                                <!--li><a href="#" data-toggle="modal" data-target="#appendReward"  ><i class="fa fa-database"></i> 追加悬赏</a></li-->
                                 @endif
                                 @if( $question->status !== 2 )
                                     <li><a href="#" data-toggle="modal" data-target="#inviteAnswer"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> 邀请回答</a></li>
@@ -78,14 +78,14 @@
                                 <a class="comments mr-10" data-toggle="collapse" href="#comments-answer-{{ $bestAnswer->id }}" aria-expanded="false" aria-controls="comment-{{ $bestAnswer->id }}"><i class="fa fa-comment-o"></i> {{ $bestAnswer->comments }} 条评论</a>
                                 <button class="btn btn-default btn-sm btn-support" data-source_id="{{ $bestAnswer->id }}" data-source_type="answer" data-support_num="{{ $bestAnswer->supports }}"><i class="fa fa-thumbs-o-up"></i> {{ $bestAnswer->supports }}</button>
                                 @if($bestAnswer->user->qrcode)
-                                    <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#payment-qrcode-modal-answer-{{ $bestAnswer->id }}" ><i class="fa fa-heart-o" aria-hidden="true"></i> 打赏</button>
+                                    <!--button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#payment-qrcode-modal-answer-{{ $bestAnswer->id }}" ><i class="fa fa-heart-o" aria-hidden="true"></i> 打赏</button-->
                                 @endif
                             </li>
                         </ul>
                     </div>
                     @include('theme::comment.collapse',['comment_source_type'=>'answer','comment_source_id'=>$bestAnswer->id,'hide_cancel'=>false])
                     @if($bestAnswer->user->qrcode)
-                        @include('theme::layout.qrcode_pament',['source_id'=>'answer-'.$bestAnswer->id,'paymentUser'=>$bestAnswer->user,'message'=>'如果觉得我的回答对您有用，请随意打赏。你的支持将鼓励我继续创作！'])
+                        @include('theme::layout.qrcode_pament',['source_id'=>'answer-'.$bestAnswer->id,'paymentUser'=>$bestAnswer->user,'message'=>'如果觉得我的回答对您有用，请给我个赞。你的支持将鼓励我继续创作！'])
                     @endif
                     <div class="media user-info border-top">
                         <div class="media-left">
@@ -103,7 +103,7 @@
                             </div>
 
                             <div class="content">
-                                <span class="answer-time text-muted hidden-xs">@if($bestAnswer->user->authentication && $bestAnswer->user->authentication->status === 1)擅长：{{ $bestAnswer->user->authentication->skill }} | @endif 采纳率 {{ $bestAnswer->user->userData->adoptPercent() }}% | 回答于 {{ timestamp_format($bestAnswer->created_at) }}</span>
+                                <span class="answer-time text-muted hidden-xs">@if($bestAnswer->user->authentication && $bestAnswer->user->authentication->status === 1)擅长：{{ $bestAnswer->user->authentication->skill }} | @endif 采纳率 {{ $bestAnswer->user->userData->adoptPercent() }}% |积分 {{$bestAnswer->user->userData->points}}| 回答于 {{ timestamp_format($bestAnswer->created_at) }}</span>
                             </div>
                         </div>
 
@@ -126,6 +126,8 @@
                         <a href="{{ route('auth.space.index',['user_id'=>$answer->user_id]) }}" class="avatar-link user-card" target="_blank">
                             <img class="avatar-40 hidden-xs"  src="{{ get_user_avatar($answer->user_id) }}" alt="{{ $answer->user['name'] }}"></a>
                         </a>
+                        <div style="font-size:10px;text-align:center;width:100%;color:#AAAAAA">积分 {{$answer->user->userData->points}}
+                            </div>
                     </div>
                     <div class="media-body">
                         <div class="media-heading">
@@ -165,7 +167,7 @@
                         </div>
                         @include('theme::comment.collapse',['comment_source_type'=>'answer','comment_source_id'=>$answer->id,'hide_cancel'=>false])
                         @if($answer->user->qrcode)
-                            @include('theme::layout.qrcode_pament',['source_id'=>'answer-'.$answer->id,'paymentUser'=>$answer->user,'message'=>'如果觉得我的回答对您有用，请随意打赏。你的支持将鼓励我继续创作！'])
+                            @include('theme::layout.qrcode_pament',['source_id'=>'answer-'.$answer->id,'paymentUser'=>$answer->user,'message'=>'如果觉得我的回答对您有用，请给我个赞。你的支持将鼓励我继续创作！'])
                         @endif
                     </div>
                 </div>
@@ -237,7 +239,7 @@
                         @else
                             <button id="collect-button" class="btn btn-default btn-sm" data-source_type = "question" data-source_id = "{{ $question->id }}" > 收藏</button>
                         @endif
-                        <strong id="collection-num">{{ $question->collections }}</strong> 收藏，<strong class="no-stress">{{ $question->views }}</strong> 浏览
+                        <strong id="collection-num">{{ $question->collections }}</strong> 收藏，<strong class="no-stress">{{ $question->views }}</strong> 评分，<strong class="no-stress">{{ $question->views }}</strong> 浏览
                     </li>
                     <li>
                         <i class="fa fa-clock-o"></i>
@@ -264,7 +266,7 @@
     </div>
 
     @if(Auth()->check())
-    <div class="modal" id="appendReward" tabindex="-1" role="dialog" aria-labelledby="appendRewardLabel">
+    <!--div class="modal" id="appendReward" tabindex="-1" role="dialog" aria-labelledby="appendRewardLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -296,7 +298,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div-->
     <div class="modal" id="adoptAnswer" tabindex="-1" role="dialog" aria-labelledby="adoptAnswerLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

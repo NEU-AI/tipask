@@ -21,7 +21,7 @@
 
             <div class="form-group @if($errors->has('title')) has-error @endif ">
                 <label for="title">文章标题:</label>
-                <input id="title" type="text" name="title"  class="form-control input-lg" placeholder="我想起那天下午在夕阳下的奔跑,那是我逝去的青春" value="{{ old('title','') }}" />
+                <input id="title" type="text" name="title"  class="form-control input-lg" placeholder="请在此处输入文章标题" value="{{ old('title','') }}" />
                 @if($errors->has('title')) <p class="help-block">{{ $errors->first('title') }}</p> @endif
             </div>
             <div class="form-group @if($errors->has('logo')) has-error @endif">
@@ -55,7 +55,9 @@
                     </select>
                 </div>
             </div>
-
+            <div class="save_bar">
+                <button class="save_button btn" onclick="save_file()">保存草稿</button>
+            </div>
             <div class="row mt-20">
                 <div class="col-xs-12 col-md-11">
                     <ul class="list-inline">
@@ -72,16 +74,30 @@
                         @endif
                     </ul>
                 </div>
-
+                   
                 <div class="col-xs-12 col-md-1">
                     <input type="hidden" id="article_editor_content"  name="content" value="{{ old('content','') }}"  />
                     <button type="submit" class="btn btn-primary pull-right editor-submit">发布文章</button>
                 </div>
             </div>
+
         </form>
 
     </div>
+    <style type="text/css">
+        .save_bar{
+            height: 40px;
+            width: 100%;
+            padding: 10px 0 0 0;
+        }
+        .save_button{
+            float: right;
 
+        }
+        .save_button:hover{
+            background-color: lightgray;
+        }
+    </style>
 @endsection
 @section('script')
     <script src="{{ asset('/static/js/summernote/summernote.min.js') }}"></script>
@@ -102,10 +118,24 @@
                     },
                     onImageUpload: function(files) {
                         upload_editor_image(files[0],'article_editor');
-                    }
+                    },
                 }
             });
 
         });
+        function save_file(){
+            if(window.localStorage){
+                localStorage.content=$("#article_editor_content").val();
+                if(localStorage.content)
+                {
+                    alert(localStorage.content);
+                    document.write(localStorage.content);
+                }
+
+            }
+            else{
+                alert('不支持localStorage');
+            }
+        }
     </script>
 @endsection
