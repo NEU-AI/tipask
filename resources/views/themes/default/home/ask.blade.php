@@ -31,7 +31,7 @@
                             {{ $question->answers }}<small>@if($question->status===2) 解决 @else 回答 @endif</small>
                         </div>
                         <div class="views hidden-xs" style="margin: 0 -10px 0 0">
-                            {{ $question->views }}<small>评分</small>
+                            {{ $question->points }}<small>评分</small>
                         </div>
                         <div class="views hidden-xs">
                             {{ $question->views }}<small>浏览</small>

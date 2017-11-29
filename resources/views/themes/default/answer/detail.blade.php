@@ -36,8 +36,8 @@
                         <ul class="list-inline">
                             <li><a class="comments"  data-toggle="collapse"  href="#comments-question-{{ $question->id }}" aria-expanded="false" aria-controls="comment-{{ $question->id }}"><i class="fa fa-comment-o"></i> {{ $question->comments }} 条评论</a></li>
                             @if($question->status!==2 && Auth()->check() && (Auth()->user()->id === $question->user_id) )
-                                <!--li><a href="{{ route('ask.question.edit',['id'=>$question->id]) }}" class="edit" data-toggle="tooltip" data-placement="right" title="" data-original-title="补充细节，以得到更准确的答案"><i class="fa fa-edit"></i> 编辑</a></li>
-                                <li><a href="#" data-toggle="modal" data-target="#appendReward"  ><i class="fa fa-database"></i> 追加悬赏</a></li-->
+                                <li><a href="{{ route('ask.question.edit',['id'=>$question->id]) }}" class="edit" data-toggle="tooltip" data-placement="right" title="" data-original-title="补充细节，以得到更准确的答案"><i class="fa fa-edit"></i> 编辑</a></li>
+                                <!--li><a href="#" data-toggle="modal" data-target="#appendReward"  ><i class="fa fa-database"></i> 追加悬赏</a></li-->
                             @endif
                         </ul>
                     </div>
@@ -120,7 +120,16 @@
                         @else
                             <button id="collect-button" class="btn btn-default btn-sm" data-source_type = "question" data-source_id = "{{ $question->id }}" > 收藏</button>
                         @endif
-                        <strong id="collection-num">{{ $question->collections }}</strong> 收藏，<strong class="no-stress">{{ $question->views }}</strong> 评分，<strong class="no-stress">{{ $question->views }}</strong> 浏览
+                        <strong id="collection-num">{{ $question->collections }}</strong> 收藏，<strong class="no-stress">{{ $question->views }}</strong> 浏览
+                    </li>
+                    <li>
+                        @if(Auth()->check() && Auth()->user()->isCollected(get_class($question),$question->id))
+                            <button id="collect-button" class="btn btn-default btn-sm" data-loading-text="加载中..." data-source_type = "question" data-source_id = "{{ $question->id }}" > 已评分</button>
+                        @else
+                            <button id="scoreup-button" class="btn btn-default btn-sm" data-source_type = "question" data-source_id = "{{ $question->id }}" > 赞</button>
+                            <button id="scoredown-button" class="btn btn-default btn-sm" data-source_type = "question" data-source_id = "{{ $question->id }}" > 踩</button>
+                        @endif
+                        <strong class="no-stress">{{ $question->points }}</strong> 评分
                     </li>
                     <li>
                         <i class="fa fa-clock-o"></i>
@@ -265,7 +274,42 @@
                 });
             });
 
+            /*问题或文章评分*/
+            $("#scoreup-button").click(function(){
+                $("#scoreup-button").button('loading');
+                var source_type = $(this).data('source_type');
+                var source_id = $(this).data('source_id');
+                var collection_num = $("#collection-num").html();
+                $.get('/collect/'+source_type+'/'+source_id,function(msg){
+                    $("#scoreup-button").removeClass('disabled');
+                    $("#scoreup-button").removeAttr('disabled');
+                    if(msg=='scored'){
+                        $("#scoreup-button").html('已评分');
+                        $("#scoreup-num").html(parseInt(score_num)+1);
+                    }else{
+                        $("#scoreup-button").html('赞');
+                        $("#scoreup-num").html(parseInt(score_num)-1);
+                    }
+                });
+            });
 
+            $("#scoredown-button").click(function(){
+                $("#scoredown-button").button('loading');
+                var source_type = $(this).data('source_type');
+                var source_id = $(this).data('source_id');
+                var collection_num = $("#collection-num").html();
+                $.get('/collect/'+source_type+'/'+source_id,function(msg){
+                    $("#scoredown-button").removeClass('disabled');
+                    $("#scoredown-button").removeAttr('disabled');
+                    if(msg=='scored'){
+                        $("#scoredown-button").html('已评分');
+                        $("#scoredown-num").html(parseInt(score_num)+1);
+                    }else{
+                        $("#scoredown-button").html('踩');
+                        $("#scoredown-num").html(parseInt(score_num)-1);
+                    }
+                });
+            });
 
             /*采纳回答为最佳答案*/
             $(".adopt-answer").click(function(){

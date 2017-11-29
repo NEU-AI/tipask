@@ -157,11 +157,14 @@
                                     <li><a href="#" class="adopt-answer" data-toggle="modal" data-target="#adoptAnswer" data-answer_id="{{ $answer->id }}" data-answer_content="{{ str_limit($answer->content,200) }}"><i class="fa fa-check-square-o"></i> 采纳</a></li>
                                     @endif
                                     @if($answer->user->qrcode)
-                                        <li><a href="#" data-toggle="modal" data-target="#payment-qrcode-modal-answer-{{ $answer->id }}" ><i class="fa fa-heart-o" aria-hidden="true"></i> 打赏</a></li>
+                                        <!--li><a href="#" data-toggle="modal" data-target="#payment-qrcode-modal-answer-{{ $answer->id }}" ><i class="fa fa-heart-o" aria-hidden="true"></i> 打赏</a></li-->
                                     @endif
                                 @endif
                                 <li class="pull-right">
-                                    <button class="btn btn-default btn-sm btn-support" data-source_id="{{ $answer->id }}" data-source_type="answer"  data-support_num="{{ $answer->supports }}"><i class="fa fa-thumbs-o-up"></i> {{ $answer->supports }}</button>
+                                     <span style="margin:0 10px 0 0;color:gray"><i class="fa fa-thumbs-o-up"></i> {{ ($answer->supports)-($answer->oppositions) }} 评分</span>
+                                     <button class="btn btn-default btn-sm btn-support" data-source_id="{{ $answer->id }}" data-source_type="answer"  data-support_num="{{ $answer->supports }}"><i class="fa fa-thumbs-o-up"></i> {{ $answer->supports }}</button>
+                                    <button class="btn btn-default btn-sm btn-oppositions" data-source_id="{{ $answer->id }}" data-source_type="answer"  data-support_num="{{ $answer->oppositions }}"><i class="fa fa-thumbs-o-down"></i> {{ $answer->oppositions }}</button>
+                                    
                                 </li>
                             </ul>
                         </div>
@@ -239,7 +242,16 @@
                         @else
                             <button id="collect-button" class="btn btn-default btn-sm" data-source_type = "question" data-source_id = "{{ $question->id }}" > 收藏</button>
                         @endif
-                        <strong id="collection-num">{{ $question->collections }}</strong> 收藏，<strong class="no-stress">{{ $question->views }}</strong> 评分，<strong class="no-stress">{{ $question->views }}</strong> 浏览
+                        <strong id="collection-num">{{ $question->collections }}</strong> 收藏，<strong class="no-stress">{{ $question->views }}</strong> 浏览
+                    </li>
+                    <li>
+                        @if(Auth()->check() && Auth()->user()->isCollected(get_class($question),$question->id))
+                            <button id="collect-button" class="btn btn-default btn-sm" data-loading-text="加载中..." data-source_type = "question" data-source_id = "{{ $question->id }}" > 已评分</button>
+                        @else
+                            <button id="scoreup-button" class="btn btn-default btn-sm" data-source_type = "question" data-source_id = "{{ $question->id }}" ><i class="fa fa-thumbs-o-up"></i> 赞</button>
+                            <button id="scoredown-button" class="btn btn-default btn-sm" data-source_type = "question" data-source_id = "{{ $question->id }}" ><i class="fa fa-thumbs-o-down"></i> 踩</button>
+                        @endif
+                        <strong class="no-stress">{{ $question->points }}</strong> 评分
                     </li>
                     <li>
                         <i class="fa fa-clock-o"></i>
@@ -448,6 +460,43 @@
                     }else{
                         $("#collect-button").html('收藏');
                         $("#collection-num").html(parseInt(collection_num)-1);
+                    }
+                });
+            });
+
+             /*问题或文章评分*/
+            $("#scoreup-button").click(function(){
+                $("#scoreup-button").button('loading');
+                var source_type = $(this).data('source_type');
+                var source_id = $(this).data('source_id');
+                var collection_num = $("#collection-num").html();
+                $.get('/collect/'+source_type+'/'+source_id,function(msg){
+                    $("#scoreup-button").removeClass('disabled');
+                    $("#scoreup-button").removeAttr('disabled');
+                    if(msg=='scored'){
+                        $("#scoreup-button").html('已评分');
+                        $("#scoreup-num").html(parseInt(score_num)+1);
+                    }else{
+                        $("#scoreup-button").html('赞');
+                        $("#scoreup-num").html(parseInt(score_num)-1);
+                    }
+                });
+            });
+
+            $("#scoredown-button").click(function(){
+                $("#scoredown-button").button('loading');
+                var source_type = $(this).data('source_type');
+                var source_id = $(this).data('source_id');
+                var collection_num = $("#collection-num").html();
+                $.get('/collect/'+source_type+'/'+source_id,function(msg){
+                    $("#scoredown-button").removeClass('disabled');
+                    $("#scoredown-button").removeAttr('disabled');
+                    if(msg=='scored'){
+                        $("#scoredown-button").html('已评分');
+                        $("#scoredown-num").html(parseInt(score_num)+1);
+                    }else{
+                        $("#scoredown-button").html('踩');
+                        $("#scoredown-num").html(parseInt(score_num)-1);
                     }
                 });
             });

@@ -15,7 +15,7 @@ class Question extends Model
 {
     use BelongsToUserTrait,MorphManyCommentsTrait,MorphManyTagsTrait,BelongsToCategoryTrait;
     protected $table = 'questions';
-    protected $fillable = ['title', 'user_id','category_id','description','tags','price','hide','status'];
+    protected $fillable = ['title', 'user_id','category_id','description','tags','price','points','hide','status'];
 
 
     public static function boot()

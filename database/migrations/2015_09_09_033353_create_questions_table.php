@@ -24,6 +24,8 @@ class CreateQuestionsTable extends Migration
 
             $table->smallInteger('price')->default(0);            //问题价格
 
+            $table->integer('points')->default(0);           //问题评分
+
             $table->tinyInteger('hide')->default(0);              //匿名提问
 
             $table->integer('answers')->unsigned()->default(0);               //回答数
